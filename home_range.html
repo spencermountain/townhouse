@@ -1,0 +1,130 @@
+<html>
+<head>
+	<title>home</title>
+	<script src="./lib/jquery.js" type="text/javascript"></script>
+	<script src="./lib/parseuri.js" type="text/javascript"></script>
+  <script src="./lib/ejs.js"></script>
+	<script src="./history/history.js" type="text/javascript"></script>
+	<script src="./history/domain.js" type="text/javascript"></script>
+	<script src="./history/maps.js" type="text/javascript"></script>
+	<script src="./history/search.js" type="text/javascript"></script>
+	<script src="./history/group.js" type="text/javascript"></script>
+	<script src="./history/tabs.js" type="text/javascript"></script>
+	<script src="./history/topics.js" type="text/javascript"></script>
+	<script src="./history/stats.js" type="text/javascript"></script>
+	<script src="color.js" type="text/javascript"></script>
+	<script src="apps.js" type="text/javascript"></script>
+	<script src="./lib/modernizr.js"></script>
+  <script src="./lib/deck.js"></script>
+  <link rel="stylesheet" href="./lib/deck.css">
+  <link type="text/css" rel="stylesheet" href="cool.css" />
+	   <script>
+      $(document).ready(function(){
+
+         var refreshId = setInterval(function(){
+           $('#time').prepend('ya ');
+         }, 8000);//60000ms equals 1 minute
+
+        // Deck initialization
+          $.deck('.slide');       
+
+          parse_history(1);
+
+
+          $("h3").click(function(){ $("#stage").html( $(this).siblings(".view").html() )})
+
+      });
+
+      </script>
+       <style>
+        .view{display:none;}
+       </style>
+</head>
+<body>
+
+    <div id="top" style=" width:100%; top:0px; text-align:right; font-size:14px;">
+      <span>
+        <a href="#" class="dodate" >current</a>
+        <a href="#" class="dodate" >today</a>
+        <a href="#" class="dodate" >this week</a>
+      </span>
+    </div>
+
+<div id="time"></div>
+<div id="total"></div>
+
+
+<section class="slide" id="title-slide">
+  <h1>hi</h1>
+</section>
+
+<section class="slide" id="how-to-overview">
+  <h2>How to Make a Deck</h2>
+  <ol>
+    <li>
+      <h3>Write Slides</h3>
+      <p>Slide content is simple&nbsp;HTML.</p>
+    </li>
+    <li>
+      <h3>Choose Themes</h3>
+      <p>One for slide styles and one for deck&nbsp;transitions.</p>
+    </li>
+    <li>
+      <h3>Include Extensions</h3>
+      <p>Add extra functionality to your deck, or leave it stripped&nbsp;down.</p>
+    </li>
+  </ol>
+</section>
+  <!-- Place the following snippet at the bottom of the deck container. -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+
+<div id="stage" style="vertical-align:center;" class="deck-container">hi</div>
+
+	<table id="showlist" style="position:absolute; width:100%; bottom:0px;">
+	<Tr>
+	
+	<td>
+          
+          <div id="stats_template" ></div>
+          </td>
+          
+          <td>
+          <h3>topics</h3>
+          <div id="topic_template" class="view"></div>
+</td>
+          
+          <td>
+          <h3>manage current:</h3>
+          <div id="tabs_template" class="view"></div>
+</td>
+          
+          <td>
+          <h3>maps</h3>
+          <div id="maps_template" class="view"></div>
+</td>
+          
+          <td>
+          <h3>times:</h3>
+          <div id="group_template" class="view"></div>
+</td>
+          
+          <td>
+          <h3>searches:</h3>
+          <div id="search_template" class="view"></div>
+</td>
+          
+          <td>
+	        <h3>history:</h3>
+          <div id="domain_template" class="view"></div>
+</td>
+          
+          <td>
+           <h3>apps</h3>
+          <div id="apps" class="view"></div>
+</td>
+          </tr>
+     </table>
+</body>
+</html>

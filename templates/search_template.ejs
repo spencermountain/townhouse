@@ -1,0 +1,12 @@
+
+
+ <ul id="searches" style="font-size:15px;">
+  <% for(var i in items){ %> 
+      <% for(var o in items[i]){ %>
+        <span href="<%= items[i].url %>" ><%= items[i][o].q %></span> &nbsp;
+       <% if(o>5){break;} %>
+     <% } %>
+     <%= items[i].length %>
+     <br/>
+  <% } %>
+ </ul>

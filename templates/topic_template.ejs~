@@ -1,0 +1,17 @@
+
+
+ <div id="maps">
+  <% for(var i in tabs){ %>
+  
+        <span class='wrapper'>
+            <a href="<%= tabs[i].url %>">
+              <img src='<%= tabs[i].image %>' / >
+              <div class='description'>
+                <div class='description_content'>&nbsp;<%= tabs[i].name %></div>
+              </div> 
+            </a>     
+         </span>    
+  
+  
+  <% } %>
+ </div>

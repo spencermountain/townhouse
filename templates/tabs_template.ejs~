@@ -1,0 +1,32 @@
+
+<ul>
+
+ <table id="tabslist">
+  <% for(var i in tabs){ %>
+    <tr>
+     <td>  
+        <img style="width:15px; height:15px;" src="<%= tabs[i].favicon %>}" / >
+       <a href="<%= tabs[i].url %>" style=""><%= tabs[i].title %></a>   
+     </td>
+     <td> <a href="#" onClick="closetab( <%= tabs[i].id %> );">close</a>   </td>
+    </tr>
+  <% } %>
+  
+  
+  <% if(duplicates>0){ %>
+    <tr>
+      <td> <% duplicates %> duplicates  </td>
+       <td> <a href="#"onclick="closeduplicates()">close</a>   </td>
+    </tr>
+  <% } %>
+  
+
+  <% for(var i in multi){ %>
+   <tr>
+      <td>  <% multi[i].length %> <% i %> tabs  </td>
+       <td> <a href="#"onclick="closeduplicates()">close</a>   </td>
+    </tr>     
+  <% } %>
+  
+ </table>
+ </ul>

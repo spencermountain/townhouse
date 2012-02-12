@@ -1,0 +1,40 @@
+
+
+ <ul id="groups" style="font-size:15px;">
+ <table style="">
+  <% for(var i in items){ %> 
+      <tr>      
+        <td>        
+        <% if(!items[i-1] || (items[i-1].day != items[i].day) ){ %>
+          <%= items[i].day %> 
+         <% } %> 
+        </td>
+        <td>
+        <% if(!items[i-1] || (items[i-1].time != items[i].time) ){ %>
+         <%= items[i].time %> 
+         <% } %> 
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+
+        <td>
+        </td>       
+        <td>
+        </td>       
+        <td style="width:50px;text-align:right;">
+           <span><%= items[i].tabs.length %></span>
+        </td> 
+        <td>
+       &nbsp; &nbsp; &nbsp; &nbsp;
+       <span ><%= items[i].searches[0] %></span>
+        <% if(items[i].searches.length>=3){ %>        
+              &nbsp;  &nbsp; -  &nbsp;
+              <span ><%= items[i].searches[parseInt(items[i].searches.length/2)] %></span> 
+         <% } %>
+        </td>
+       </tr>
+  <% } %>
+  </table>
+ </ul>

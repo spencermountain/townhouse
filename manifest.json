@@ -1,0 +1,15 @@
+{
+  "name": "Townhouse",
+  "version": "1.0",
+  "chrome_url_overrides": {
+    "newtab": "home.html"
+  },
+  "permissions": ["tabs", "history","chrome://favicon/","management"], 
+  "content_scripts": [
+  {
+    "matches": ["http://*/*"],
+    "js": ["/lib/jquery.js","send_metas.js"]
+  }
+ ]
+}
+
