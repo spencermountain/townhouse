@@ -1,11 +1,10 @@
 //let the color change by sunlight
 
 $(document).ready(function(){
-$("#hour").keyup(function(){
 var d = new Date();
 var hour=d.getHours();
-var hour=parseInt($("#hour").val());
-
+//var hour=parseInt($("#hour").val());
+$("#hour").val(hour)
 //defaults
 var hue=217;
 var niceness=15;//5 is cloudy, 20 is nice
@@ -61,5 +60,4 @@ else{darkness=afternoon;}*/
 
 console.log('hour is'+hour+'darkness:'+darkness);
 $("body").css("background" , 'hsl('+hue+','+niceness+'%,'+darkness+'%)');
-})
 });

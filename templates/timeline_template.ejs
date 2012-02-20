@@ -1,0 +1,23 @@
+
+
+  <% for(var i in tabs){ %>
+
+        <a href="<%= tabs[i].url %>"  style="position:absolute; 
+        max-height:50px; 
+        y-overflow:none; 
+        background:steelblue; 
+        top:<%= (i *50)+10 %>px;
+
+        left:<%= tabs[i].ratio %>%; 
+        color:white;         
+          <% if( tabs[i].closed ){ %>
+          border:1px dotted white;
+          opacity:0.5;
+          <% } %>
+        display:block;
+        ">
+          <%= tabs[i].title.substr(0,15) %> <%= tabs[i].count %>
+        </a>     
+        <br/>
+  
+  <% } %>

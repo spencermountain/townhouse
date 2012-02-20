@@ -1,209 +1,209 @@
 <html>  
-  <head>
-    <title>
-      home
-    </title>
-    <script src="./lib/jquery.js" type="text/javascript">
-    </script>
-    <script src="./lib/parseuri.js" type="text/javascript">
-    </script>
-    <script src="./lib/ejs.js">
-    </script>
-    <script src="./lib/encode.js">
-    </script>
-    <script src="./lib/underscore.js">
-    </script>
-    
-    <script src="./history/tabs.js" type="text/javascript">
-    </script>
-    <script src="./history/wiki.js" type="text/javascript">
-    </script>
-    <script src="./history/topics.js" type="text/javascript">
-    </script>
-     <script src="./history/slideshow.js" type="text/javascript">
-    </script>
-    <script src="./history/history.js" type="text/javascript">
-    </script>
-    <script src="./history/group.js" type="text/javascript">
-    </script>
-     <script src="./history/domain.js" type="text/javascript">
-    </script>
-    <script src="apps.js" type="text/javascript">
-    </script>
-   <script src="./history/showimages.js" type="text/javascript">
-    </script>
-    
-    <script src="color.js" type="text/javascript">
-    </script>    
-    <script src="./lib/d3.js" type="text/javascript">
-    </script>
-    <script src="./svg/mostgraph.js" type="text/javascript">
-    </script>
-    <script src="./svg/linegraph.js" type="text/javascript">
-    </script>
-    <script src="./svg/piegraph.js" type="text/javascript">
-    </script>
-    <script src="./svg/timegraph.js" type="text/javascript">
-    </script>
-   <script src="./svg/treemap.js" type="text/javascript">
-    </script>
-    <script src="./svg/weekgraph.js" type="text/javascript">
-    </script>
-   <style>
-    body{font-family: 'Cabin', sans-serif;}
-    #footer{
+<head>
+  <title>
+    home
+  </title>
+  <script src="./lib/jquery.js" type="text/javascript">
+  </script>
+  <script src="./lib/parseuri.js" type="text/javascript">
+  </script>
+  <script src="./lib/ejs.js">
+  </script>
+  <script src="./lib/encode.js">
+  </script>
+  <script src="./lib/underscore.js">
+  </script>
+  
+  <script src="./history/tabs.js" type="text/javascript">
+  </script>
+  <script src="./history/wiki.js" type="text/javascript">
+  </script>
+  <script src="./history/topics.js" type="text/javascript">
+  </script>
+  <script src="./history/slideshow.js" type="text/javascript">
+  </script>
+  <script src="./history/history.js" type="text/javascript">
+  </script>
+  <script src="./history/group.js" type="text/javascript">
+  </script>
+  <script src="./history/domain.js" type="text/javascript">
+  </script>
+  <script src="apps.js" type="text/javascript">
+  </script>
+  <script src="./history/showimages.js" type="text/javascript">
+  </script>
+  
+  <script src="color.js" type="text/javascript">
+  </script>    
+  <script src="./lib/d3.js" type="text/javascript">
+  </script>
+  <script src="./svg/mostgraph.js" type="text/javascript">
+  </script>
+  <script src="./svg/linegraph.js" type="text/javascript">
+  </script>
+  <script src="./svg/piegraph.js" type="text/javascript">
+  </script>
+  <script src="./svg/timegraph.js" type="text/javascript">
+  </script>
+  <script src="./svg/treemap.js" type="text/javascript">
+  </script>
+  <script src="./svg/weekgraph.js" type="text/javascript">
+  </script>
+  <style>
+  body{font-family: 'Cabin', sans-serif;}
+  #footer{
     position:fixed;
     left:0px;
     bottom:0px;
-}
-</style>
-    <link type="text/css" rel="stylesheet" href="cool.css" />
-    <script>
-   $(document).ready(function() {
+  }
+  </style>
+  <link type="text/css" rel="stylesheet" href="cool.css" />
+  <script>
+  $(document).ready(function() {
    
-        var homeid='';
-        chrome.tabs.getCurrent(function(tab){
-          homeid=tab.id;
-        })
-        
-        var refreshId = setInterval(function() {
-          chrome.tabs.getSelected(null,function(tab){
-             if(tab.id!=homeid && tab.status=="complete"){
-                chrome.tabs.remove(homeid, function(){})
-            }          
-          })          
-        }, 60000); //60000ms equals 1 minute
+    var homeid='';
+    chrome.tabs.getCurrent(function(tab){
+      homeid=tab.id;
+    })
+    
+    var refreshId = setInterval(function() {
+      chrome.tabs.getSelected(null,function(tab){
+       if(tab.id!=homeid && tab.status=="complete"){
+        chrome.tabs.remove(homeid, function(){})
+      }          
+    })          
+    }, 60000); //60000ms equals 1 minute
 
-var slideshow_timeout = window.setTimeout(function(){showslideshow()} , 238000);
+    var slideshow_timeout = window.setTimeout(function(){showslideshow()} , 238000);
 
-  $(document).click(function() {
-    window.clearTimeout(slideshow_timeout);
-    slideshow_timeout = window.setTimeout(function(){showslideshow()}, 238000);
-    console.log('click');
-  })
-  
+    $(document).click(function() {
+      window.clearTimeout(slideshow_timeout);
+      slideshow_timeout = window.setTimeout(function(){showslideshow()}, 238000);
+      console.log('click');
+    })
 
-        $("#tabshow").click(function() {
-          showtabs();      
-        });        
-        $("#subjectshow").click(function() {             
-          get_wiki(7);
-        });
-       $("#show").click(function() {             
-          showslideshow();
-        });        
-       $("#appshow").click(function() {
-          showapps($("#stage"));
-        });        
-        $("#findshow").click(function() {
-          show_domains();
-        });        
-       $("#todayshow").click(function() {
-          showstats($("#stage"));
-        });
-        
-      todayshow();
-      showimages();  setTimeout("removeblanks()",1000);
-      startuptab();
-      startapps()
 
-      $(".foot").hover(
-        function () {
-          $(this).addClass("foothover");
-        },
-        function () {
-          $(this).removeClass("foothover");
-        }
+    $("#tabshow").click(function() {
+      //showtabs();      
+      timeline()
+    });        
+    $("#subjectshow").click(function() {             
+      get_wiki(7);
+    });
+    $("#show").click(function() {             
+      showslideshow();
+    });        
+    $("#appshow").click(function() {
+      showapps($("#stage"));
+    });        
+    $("#findshow").click(function() {
+      show_domains();
+    });        
+    $("#todayshow").click(function() {
+      showstats($("#stage"));
+    });
+    
+    todayshow();
+    showimages();  setTimeout("removeblanks()",1000);
+    startuptab();
+    startapps()
+
+    $(".foot").hover(
+      function () {
+        $(this).addClass("foothover");
+      },
+      function () {
+        $(this).removeClass("foothover");
+      }
       );
 
-//bottom pie graph
-        get_history(1, function(tabs){
-              var domains=get_domains(tabs)
-              showpie(domains)
-              timegraph(tabs)
-       })
+    //bottom pie graph
+    get_history(1, function(tabs){
+      var domains=get_domains(tabs)
+      showpie(domains)
+      timegraph(tabs)
+    })
 
 
+  });
 
-      });
-      
-      function settab(id){
-        chrome.tabs.update(id, {selected: true});
-      }
-    </script>
-    <style>
-     img{
-       -moz-border-radius: 5px;
-        border-radius: 5px;
-        }
-        
-      svg { font: 10px sans-serif; shape-rendering: crispEdges;
-      }
+function settab(id){
+  chrome.tabs.update(id, {selected: true});
+}
+</script>
+<style>
+img{
+ -moz-border-radius: 5px;
+ border-radius: 5px;
+}
 
-      .foot{
-        position:relative;
-        border-radius: 15px;
-        display:inline-block;
-        text-align:center;
-        min-width:100px;
-        min-height:100px;
-        vertical-align:bottom;
-      }
-        .foot {
-    -moz-animation-duration: 3s;
-    -moz-animation-name: slidein;
-  }
-  
-      .foothover{
-        opacity:0.7;
-         background:grey;
-        -webkit-transition: background;
-        -webkit-transition-timing-function: ease-out;
-        -webkit-transition-duration: 500ms;
-      }
-      
-      @font-face {
+svg { font: 10px sans-serif; shape-rendering: crispEdges;
+}
+
+.foot{
+  position:relative;
+  border-radius: 15px;
+  display:inline-block;
+  text-align:center;
+  min-width:100px;
+  min-height:100px;
+  vertical-align:bottom;
+}
+.foot {
+  -moz-animation-duration: 3s;
+  -moz-animation-name: slidein;
+}
+
+.foothover{
+  opacity:0.7;
+  background:grey;
+  -webkit-transition: background;
+  -webkit-transition-timing-function: ease-out;
+  -webkit-transition-duration: 500ms;
+}
+
+@font-face {
   font-family: 'Cabin';
   font-style: normal;
   font-weight: 400;
   src: local('Cabin Regular'), local('Cabin-Regular'), url('./cabin.woff') format('woff');
 }
-    </style>
-  </head>
+</style>
+</head>
+
+<body >
+  <div id="time" >
+  </div>      
+
   
-  <body >
-    <div id="time" >
-    </div>      
+  
+  <div id="stage" style="position:absolute; width:100%; height:90%; top:0px; font-size:23px; vertical-align:center;" >
+    hi
+  </div>
+  
+  <span id="images"></span>
+  
+  <table style="width:100%; height:100px; a.color:white;" id="footer">
+    <tr>
+      <td>
+       <span class="foot" id="todayshow"></span>
+     </td>
+     <Td>   
+      <span class="foot" id="subjectshow"><img style="opacity:0.6; width:80px; " src="./chart.png" / ><br/ >week</span>
+    </td>
+    <td>
+      <span class="foot" id="tabshow">tabs</span>
+    </td>
+    <td>
+     <span class="foot" id="findshow">recent<div id="piegraph"></div></span>
+   </td>
+   <td>
+     <span class="foot" id="appshow">apps..</span>
+     <a href="#" id="show">show</a>
+     
+     <input id="hour"/>
+   </td>
+ </tr>
+</table>
 
-    
- 
-      <div id="stage" style="position:absolute; width:100%; height:90%; top:0px; font-size:23px; vertical-align:center;" >
-        hi
-      </div>
-      
-    <span id="images"></span>
-      
-        <table style="width:100%; height:100px; a.color:white;" id="footer">
-          <tr>
-            <td>
-               <span class="foot" id="todayshow"></span>
-            </td>
-            <Td>   
-                <span class="foot" id="subjectshow"><img style="opacity:0.6; width:80px; " src="./chart.png" / ><br/ >week</span>
-            </td>
-            <td>
-                <span class="foot" id="tabshow">tabs</span>
-            </td>
-            <td>
-                 <span class="foot" id="findshow">recent<div id="piegraph"></div></span>
-            </td>
-             <td>
-                 <span class="foot" id="appshow">apps..</span>
-                   <a href="#" id="show">show</a>
-      
-    <input id="hour"/>
-            </td>
-          </tr>
-          </table>
-
-  </body>
+</body>

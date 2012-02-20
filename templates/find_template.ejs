@@ -1,10 +1,10 @@
 
-<table style="position:absolute; vertical-align:center; top:200px; left:25%">
-  <tr>
-  <Td>
+<table style="position:absolute; vertical-align:top; top:200px; left:25%; min-width:200px; min-height:200px; ">
+  <tr style="vertical-align:top;">
+  <Td style="vertical-align:top;">
   
-  
-         <table id="domainlist" style=" overflow-y:scroll;"> 
+  <input type="text" style=" top:0px; background:black; opacity:0.3; width:80%; height:30px; color:white; border-radius:5px;" id="recentsearch" />
+         <table id="domainlist" style=" overflow-y:scroll; background:white; opacity:0.6; border-radius: 5px"> 
           <% for(var i in tabs){ %>
             <tr>
              <td>  
@@ -32,9 +32,17 @@
                  <% } %>
             <% } %>
             <a href="#" id="moregoogles">show more googles..</a>
-         </td>
-         
+         </td>         
          -->
+
+             <td>
+       <% for(var i in maplist){ %>
+              <img src="<%= maplist[i].image %>" title="<%= maplist[i].q %>" style="width:125px; height:125px;"/>
+              <br/>
+              <p></p>
+
+             <% } %>
+          </td> 
          </tr>
          <tr style="height:150px;">
          </tr>

@@ -21,7 +21,7 @@ function showpie(all){
       .attr("class", "arc")
       .attr("transform", "translate(" + r + "," + r + ")")
       .attr("d", arc)
-      .on("click", function(s,i) { window.location=all[i].link;})
+     // .on("click", function(s,i) { window.location=all[i].link;})
 
 
   arcs.transition()
