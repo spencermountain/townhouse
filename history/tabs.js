@@ -42,15 +42,15 @@ function timeline(){
 
     chrome.history.search({text:'', startTime:from, endTime:now, maxResults:2000}, function(history){
       for(var i in history){
-        if(!_.find(tabs, function(tab){return tab.url==history[i].url})){      
-          history[i].closed=true;          
+        if(!_.find(tabs, function(tab){return tab.url==history[i].url})){
+          history[i].closed=true;
           tabs.push(history[i])
         }
       }
       tabs=tabs.sort(function(a,b){return a.lastVisitTime-b.lastVisitTime});
       //keep only the closed tabs since oldest open tab
       var nice=false; var interesting=[];
-      for(var i in tabs){          
+      for(var i in tabs){
         if(!tabs[i].closed){nice=true;}
         if(!tabs[i].title){tabs[i].title=tabs[i].url.replace(/https?:\/\/(www\.)?/,'');}
         if(nice){
@@ -68,9 +68,49 @@ function timeline(){
         if(interesting[i].ratio>10){interesting[i].ratio=interesting[i].ratio-10;}
       }
 
+//add colours by domain
+
+    var colours = [
+    "#1f77b4", "#aec7e8",
+    "#ff7f0e", "#ffbb78",
+    "#2ca02c", "#98df8a",
+    "#d62728", "#ff9896",
+    "#9467bd", "#c5b0d5",
+    "#8c564b", "#c49c94",
+    "#e377c2", "#f7b6d2",
+    "#7f7f7f", "#c7c7c7",
+    "#bcbd22", "#dbdb8d",
+    "#17becf", "#9edae5"
+    ];
+
+        interesting=interesting.map(function(v){
+         v.parsed=parseUri(v.url);
+         v.favicon=null;
+         if(v.parsed.host){
+           v.favicon='chrome://favicon/http://'+v.parsed.host;
+         }
+         v.domain=v.parsed.host.replace(/^www\./,'');
+         v.domain=v.domain.replace(/\.(org|net|com|co\.uk)/,'');
+         v.domain=v.domain.replace(/.*?\.(.{4}.*?)/,'$1');//regex subdomain
+         return v
+        })
+
+        var domains=_.compact(collate(_.pluck(interesting, 'domain')).map(function(v,i ){
+          v.colour=colours[i]
+          return v
+        }))
+
+        interesting=interesting.map(function(v){
+          var domain=domains.filter(function(d){
+              return d.key == v.domain
+            })[0] || {}
+            v.colour=domain.colour || "steelblue"
+            return v
+          })
+
     var html = new EJS({url: './templates/timeline_template.ejs'}).render({tabs:interesting});
-    $('#stage').html(html); 
-              
+    $('#stage').html(html);
+
 //reset view when closed a tab 'live'
 chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) { timeline();});
 
@@ -85,9 +125,28 @@ chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) { timeline();});
 }
 
 
+
+
+function collate(arr){
+  var obj={}
+  for(var i in arr){
+    if(obj[arr[i]]){
+      obj[arr[i]]++;
+    }else{
+      obj[arr[i]]=1;
+    }
+  }
+  var arr=[];
+    for(var i in obj){
+        arr.push({title:i, value:obj[i]})
+    }
+    return arr.sort(function(a,b){return b.value - a.value})
+}
+
+
 function startuptab(){
 
-  chrome.windows.getAll({ populate: true }, function(windowlist) {	    
+  chrome.windows.getAll({ populate: true }, function(windowlist) {
     var count=0;
     for(var i in windowlist){
       for(var o in windowlist[i].tabs){
@@ -110,24 +169,24 @@ function startuptab(){
 //current tabs
 function showtabs(){
   //get open tabs
-  chrome.windows.getAll({ populate: true }, function(windowlist) {	    
+  chrome.windows.getAll({ populate: true }, function(windowlist) {
     var tabs=[]
     for(var i in windowlist){
-      for(var o in windowlist[i].tabs){        
+      for(var o in windowlist[i].tabs){
         tabs.push(windowlist[i].tabs[o])
       }
     }
-    generic_treemap(tabs);       
+    generic_treemap(tabs);
   })
-}       
+}
 
 function generic_treemap(tabs){
   var count=0;
-  counttab(count);        
+  counttab(count);
   function counttab(i){
    chrome.history.getVisits({url: tabs[i].url}, function(visits){
-     tabs[i].count=visits.length; 
-     var parsed=parseUri(tabs[i].url);	        
+     tabs[i].count=visits.length;
+     var parsed=parseUri(tabs[i].url);
      tabs[i].favicon='chrome://favicon/http://'+parsed.host;
      tabs[i].domain=getdomain(tabs[i].url);
      count++;
@@ -136,7 +195,7 @@ function generic_treemap(tabs){
       return render(tabs)
     }
   })
- } 
+ }
 }
 
 
@@ -145,15 +204,13 @@ function getmetas(tabs){
 
  tabs=_.reject(tabs, function(t){return t.url.match(/chrome/) }  )
  var all=[];
- for(var i in tabs){ 
+ for(var i in tabs){
   chrome.tabs.sendRequest(tabs[i].id, {greeting: "hello", id:tabs[i].id, url:tabs[i].url, count:tabs[i].url.count, domain:tabs[i].domain}, function(response) {
     all.push(response.data);
-    console.log(all.length+'   '+tabs.length)
     if(all.length==tabs.length){
-      console.log('done')
       render(all, el)
     }
-  })    
+  })
 }
 }
 
@@ -181,7 +238,6 @@ for(var i in domains){
  all.children.push(domain)
 }
 
-console.log(all);
 treemap(all);
 }
 
@@ -202,9 +258,9 @@ function closetab(tabId) {
     alert(e);
   }
   // location.reload();
-} 
+}
 
-/*     
+/*
 
 //get open tabs
 chrome.windows.getAll({ populate: true }, function(windowlist) {
@@ -376,13 +432,13 @@ function dopromise(){
     chrome.history.getVisits({url: "http://en.wikipedia.org/wiki/Voronoi_diagram"}, function(tabs){
       console.log('http://en.wikipedia.org/wiki/Voronoi_diagram     '+tabs.length)
       dfd.resolve("1hurray");
-      return tabs.length;              
+      return tabs.length;
     });
 
 chrome.history.getVisits({url: "http://en.wikipedia.org/wiki/Radiohead"}, function(tabs){
   console.log('rad '+tabs.length)
   dfd.resolve("2");
-  return tabs.length;              
+  return tabs.length;
 });
 
 

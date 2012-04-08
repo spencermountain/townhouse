@@ -108,7 +108,6 @@ function top_domain(tabs){
         // domain=domain.replace(/.*?\.(.{4}.*?)/,'$1');//regex subdomain
         if(domains[domain]){
          domains[domain]++;
-         console.log(domains)
        }else{
          domains[domain]=0;
        }
