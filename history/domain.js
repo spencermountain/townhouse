@@ -1,3 +1,7 @@
+
+
+
+
 function recent(tabs){
 
 
@@ -14,17 +18,17 @@ function recent(tabs){
    domain=domain.replace(/\.(org|net|com|co\.uk)/,'');
    //domain=domain.replace(/.*?\.(.{4}.*?)/,'$1');//regex subdomain
    if(!title){title=domain;}
-   if(tablist[parsed.host] == null){tablist[parsed.host]={favicon:favicon, sites:[], domain:domain };}	             
-   tablist[parsed.host].sites.push({ url : tabs[i].url, title : title})	      
- }   
+   if(tablist[parsed.host] == null){tablist[parsed.host]={favicon:favicon, sites:[], domain:domain };}
+   tablist[parsed.host].sites.push({ url : tabs[i].url, title : title})
+ }
 
  //pivot into an array
  var tabarr=[];
  for(var i in tablist){
   tablist[i].font=parseInt(tablist[i].sites.length/2)+15;
-  tabarr.push(tablist[i]);          
+  tabarr.push(tablist[i]);
 }
-//   tabarr.sort(function(a,b){return b.font-a.font;});              
+//   tabarr.sort(function(a,b){return b.font-a.font;});
 
 
 return tabarr;
@@ -38,17 +42,19 @@ function show_domains(){
     tabs=recent(tabs);
     var googles=list_googles(tabs);
     var maplist=list_maps(tabs);
+
+
     tabs=tabs.slice(0,25);
     //  googles=googles.slice(0,20);
     //display history view
     var template_html = new EJS({url: './templates/find_template.ejs'}).render({tabs:tabs, googles:googles, maplist:maplist});
-    $('#stage').html(template_html);  
+    $('#stage').html(template_html);
 
 
     var searchtimeout = window.setTimeout(null, 800);
 
 
-    $("#recentsearch").keyup(function(){  
+    $("#recentsearch").keyup(function(){
       window.clearTimeout(searchtimeout);//for fast typing
       searchtimeout = window.setTimeout(function(){
         $("#domainlist").html('');
@@ -59,7 +65,7 @@ function show_domains(){
             html+='<tr><td>'
             html+='<a href="'+results[i].url+'">'+results[i].title+'</a>'
             html+='</td></tr>'
-          }    
+          }
           $("#domainlist").html(html);
         })
       },800);
@@ -80,20 +86,20 @@ function show_domains(){
 function search_history(text, callback){
  var days=2;
  d = new Date();
- var now=d.getTime(); 
+ var now=d.getTime();
  var hours=d.getHours();
- if(hours<5){      //make the day start at 5am  
-  d.setDate(d.getDate()-1);    
+ if(hours<5){      //make the day start at 5am
+  d.setDate(d.getDate()-1);
 }
-d.setHours(5);  
+d.setHours(5);
 console.log('from = '+d.getHours()+'    day='+ d.getDate());
-var from=d.getTime();      
+var from=d.getTime();
 
-chrome.history.search({text:text, startTime:from, endTime:now, maxResults:10}, function(tabs){      
+chrome.history.search({text:text, startTime:from, endTime:now, maxResults:10}, function(tabs){
 
-  console.log(tabs.length +' history results');     
+  console.log(tabs.length +' history results');
   callback(tabs);
-});          
+});
 }
 
 function list_maps(tabs){
@@ -116,7 +122,7 @@ function list_maps(tabs){
  return maplist;
 }
 
-//get google searches            
+//get google searches
 function list_googles(tabs){
   searches=[]
   for(var i in tabs){
@@ -129,7 +135,7 @@ function list_googles(tabs){
         q=q.replace(/\+/g,' ');
         searches.push(q);
       }
-    }     
+    }
   }
 }
 searches=unique(searches);
@@ -143,7 +149,7 @@ for(var i in searches){
       tokens[chunks[o]]=0;
     }
     tokens[chunks[o]]++
-  }        
+  }
 }
 
 //convert to array
@@ -167,7 +173,7 @@ for(var i in searches){
   }
 }
 searches[i]={show:show, q:searches[i]};
-} 
+}
 return searches;
 }
 

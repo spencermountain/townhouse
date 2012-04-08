@@ -4,12 +4,12 @@
   "chrome_url_overrides": {
     "newtab": "home.html"
   },
-  "permissions": ["tabs", "history","chrome://favicon/","management"], 
-  "content_scripts": [
-  {
-    "matches": ["http://*/*"],
-    "js": ["/lib/jquery.js","send_metas.js"]
+  "permissions": ["tabs", "history","chrome://favicon/","management", "bookmarks"],
+    "icons": {
+    "128": "icon.jpg",
+    "16": "icon32.png",
+    "32": "icon32.png",
+    "48": "icon48.jpg"
   }
- ]
 }
 

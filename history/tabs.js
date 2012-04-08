@@ -18,8 +18,10 @@ function timeline(){
   //add more information to each open tab
   function gettime(i){
     chrome.history.getVisits({url:tabs[i].url}, function(visits){
+      if(visits[0]){
       visits=visits.sort(function(a,b){return b.visitTime-a.visitTime;})
       tabs[i].lastVisitTime=visits[0].visitTime;
+      }
       tabs[i].count=visits.length;
       i++;
       if(tabs[i]){gettime(i);}
@@ -69,6 +71,9 @@ function timeline(){
     var html = new EJS({url: './templates/timeline_template.ejs'}).render({tabs:interesting});
     $('#stage').html(html); 
               
+//reset view when closed a tab 'live'
+chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) { timeline();});
+
 
 
     });

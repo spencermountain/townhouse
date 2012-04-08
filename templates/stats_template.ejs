@@ -1,3 +1,18 @@
+<style type="text/css">
+.googles A:link {text-decoration: none; color:grey;}
+.googles A:visited {text-decoration: none;color:grey;}
+.googles A:active {text-decoration: none;color:grey;}
+.googles A:hover {text-decoration: underline; color:grey;}
+
+#timegraph { text-align:center; padding-top:50px; }
+.bar {
+	display:inline-block;
+	width: 3px; border:1px outset #69f;
+	background: #369; border-bottom:1px solid #000;
+}
+.bar:hover { background:#69c }
+</style>
+
 <table style="height:25%; width:100%;">
 <tr>
 <Td id="mostgraph">
@@ -6,5 +21,13 @@
 </td>
 </tr>
 </table>
-<span id="timegraph" style="position:absolute; bottom:100px; width:80%;"></span>
-<span id="fblist" style="position:absolute; bottom:100px; left:84%; width:15%; text-align:bottom;"></span>
+<table style="height:75%; width:100%;">
+	<tr>
+		<td style="width:80%;">
+			<span id="timegraph" style="position:absolute; bottom:100px; "></span>
+			<span id="fblist" style="position:absolute; bottom:100px; left:84%; width:15%; text-align:bottom;"></span>
+		</td>
+		<td style="width:20%;" id="list_googles" class="googles">
+		</td>
+	</tr>
+</table>

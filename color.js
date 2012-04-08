@@ -41,6 +41,10 @@ if(darkness>midnight+45){
 }
 
 
+//var r=randomcolor();
+//$('body').css('background-color',r)
+
+
 /*
 if(hour<=9 && hour>=6){//between 6 to 9 go from 20 to 80
  var darkness=(hour-5)*10;
@@ -61,3 +65,12 @@ else{darkness=afternoon;}*/
 console.log('hour is'+hour+'darkness:'+darkness);
 $("body").css("background" , 'hsl('+hue+','+niceness+'%,'+darkness+'%)');
 });
+
+
+
+function randomcolor(){
+  var hue=Math.floor(Math.random()*230)+10;
+  var niceness=34;
+  var darkness=34;
+  return 'hsl('+hue+','+niceness+'%,'+darkness+'%)'
+}

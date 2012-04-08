@@ -28,8 +28,8 @@ function get_topics(days, callback){
         d.setDate(d.getDate()-1);
     }
     d.setHours(5);
+    console.log('from = '+d);
     var from=d.getTime();
-    console.log('from = '+from);
 
           chrome.history.search({text:'Wikipedia - the free encyclopedia' ,  startTime:from, endTime:today, maxResults:100}, function(tabs){
              console.log(tabs.length +' wiki results')
