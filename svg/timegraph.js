@@ -10,7 +10,7 @@ function timegraph(tabs, domains){
          var domain=top_domain(within);
          histogram.push({date: i, count:within.length, tabs:within, googles:googles, domain:domain })
        }
-
+console.log(histogram)
     //add this evening as 0 count
     var d=new Date()
     d.setHours(23)
@@ -55,7 +55,7 @@ function timegraph(tabs, domains){
 .attr("x", function(d, i) { return x(i) - .5; })
 
 chart.selectAll("rect")
-.on("click", function(s,i) { generic_treemap(histogram[i].tabs)})
+//.on("click", function(s,i) { showdomain(histogram[i].domain)})
 .append("svg:title")
 .text(function(s,i) { var h=new Date(); h.setTime(histogram[i].date); return h.getHours()+':'+h.getMinutes()+'   '+histogram[i].count +'  '+histogram[i].domain  });
 

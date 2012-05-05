@@ -2,6 +2,26 @@
 
 
 
+var colours = [
+  "#1f77b4", "#aec7e8","#84B154",
+     "#3B6C8F",
+     "#3B7F8F",
+     "#3E9B96",
+     "#468D99",
+     "#429B8F",
+     "#357493",
+  "#ff7f0e", "#ffbb78",
+  "#2ca02c", "#98df8a",
+  "#d62728", "#ff9896",
+  "#9467bd", "#c5b0d5",
+  "#8c564b", "#c49c94",
+  "#e377c2", "#f7b6d2",
+  "#7f7f7f", "#c7c7c7",
+  "#bcbd22", "#dbdb8d",
+  "#17becf", "#9edae5"
+];
+
+
 function recent(tabs){
 
 
@@ -35,19 +55,57 @@ return tabarr;
 
 }
 
+
+function addcolours(tabs){
+//add colours by domain
+
+
+tabs=tabs.map(function(v){
+ v.parsed=parseUri(v.url);
+ v.favicon=null;
+ if(v.parsed.host){
+   v.favicon='chrome://favicon/http://'+v.parsed.host;
+ }
+ v.domain=v.parsed.host.replace(/^www\./,'');
+ v.domain=v.domain.replace(/\.(org|net|com|co\.uk)/,'');
+         v.domain=v.domain.replace(/.*?\.(.{4}.*?)/,'$1');//regex subdomain
+         return v
+       })
+
+var domains=_.compact(collate(_.pluck(tabs, 'domain')).map(function(v,i ){
+  v.colour=colours[i]
+  return v
+}))
+
+tabs=tabs.map(function(v){
+  var domain=domains.filter(function(d){
+    return d.key == v.domain
+  })[0] || {}
+  v.colour=domain.colour || "steelblue"
+  return v
+})
+return tabs;
+}
+
+
+
 function show_domains(){
 
   get_history(1, function(tabs){
-    //tabs=._filter()
+    tabs=addcolours(tabs);
+    var template_html = new EJS({url: './templates/recent_template.ejs'}).render({tabs:tabs.slice(0,10)});
+
     tabs=recent(tabs);
     var googles=list_googles(tabs);
     var maplist=list_maps(tabs);
-
-
+    tabs=tabs.map(function(v,i){v.colour=colours[i]; return v;})
     tabs=tabs.slice(0,25);
     //  googles=googles.slice(0,20);
     //display history view
-    var template_html = new EJS({url: './templates/find_template.ejs'}).render({tabs:tabs, googles:googles, maplist:maplist});
+    console.log(tabs)
+    template_html += new EJS({url: './templates/find_template.ejs'}).render({tabs:tabs, googles:googles, maplist:maplist});
+
+
     $('#stage').html(template_html);
 
 

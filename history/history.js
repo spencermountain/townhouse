@@ -21,7 +21,7 @@ function showstats(){
     "#17becf", "#9edae5"
     ];
     domains=domains.map(function(v,i){v.colour=colours[i]; return v;})
-    domains=domains.slice(0,5)
+    domains=domains.slice(0,10)
 
     mostgraph(domains)
     timegraph(tabs, domains)
@@ -30,6 +30,22 @@ function showstats(){
   })
 
 }
+
+
+function showdomain(domain){
+
+      chrome.history.search({text:domain, maxResults:2000}, function(tabs){
+
+    var domains=get_domains(tabs)
+
+         console.log(domains);
+
+      });
+
+}
+
+
+
 
 function showfreebase(tabs){
  var days=['mo','tu','we','th','fr','sa','su']

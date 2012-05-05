@@ -1,39 +1,31 @@
 
-<table style="position:absolute; vertical-align:top; top:200px; left:25%; min-width:200px; min-height:200px; ">
+<table style="position:absolute; vertical-align:top; top:200px; left:5%; width:99%; min-width:200px; min-height:200px; ">
   <tr style="vertical-align:top;">
-  <Td style="vertical-align:top;">
-  
-  <input type="text" style=" top:0px; background:black; opacity:0.3; width:80%; height:30px; color:white; border-radius:5px;" id="recentsearch" />
-         <table id="domainlist" style=" overflow-y:scroll; background:white; opacity:0.6; border-radius: 5px"> 
+    <Td>
           <% for(var i in tabs){ %>
-            <tr>
-             <td>  
-                <!--<img style="width:15px; height:15px;" src="<%= tabs[i].favicon %>" / >-->
-                <a href="#" style="font-size:<%= tabs[i].font %>;" class="domain"> <%= tabs[i].domain %></a>  </br> 
-                  <div class="sites" id="<%= tabs[i].domain %>" style="display:none; position:relative; left:100px;">      
+          <span style="position:relative; left:<%= i*25%>px;">
+                <img style="width:15px; height:15px;" src="<%= tabs[i].favicon %>" / >
+                <a href="#" style="font-size:<%= tabs[i].font %>; background:<%= tabs[i].colour %>; color:white; opacity:0.8;" class="domain">
+                  <%= tabs[i].domain %>
+                </a>
+                </br>
+                  <div class="sites" id="<%= tabs[i].domain %>" style="display:none; position:relative;">
                     <% for(var o in tabs[i].sites){ %>
                       <a href="<%= tabs[i].sites[o].url %>" style="" > <%= tabs[i].sites[o].title %></a></br>
                     <% } %>
-                  </div>
-             </td>
-            </tr>
-          <% } %>    
+                  </div><br/>
+                </span>
+          <% } %>
+
+    </td>
+  <Td style="vertical-align:top;">
+
+  <input type="text" style=" top:0px; background:black; opacity:0.3; width:80%; height:30px; color:white; border-radius:5px;" id="recentsearch" />
+         <table id="domainlist" style=" overflow-y:scroll; background:white; opacity:0.6; border-radius: 5px">
          </table>
-         
-         
+
+
          </td>
-         <!--
-         <td>
-           <% for(var i in googles){ %>
-                <% if (i< 20){ %>
-                           <a style="font-size:12px;" href="http://google.com/search?q=<%= googles[i].q %>"><%= googles[i].show %></a><br/>
-                 <% }else{ %>
-                          <div class="hidegoogle" style="display:none;"><a style="font-size:12px;" href="http://google.com/search?q=<%= googles[i].q %>"><%= googles[i].show %></a></div>
-                 <% } %>
-            <% } %>
-            <a href="#" id="moregoogles">show more googles..</a>
-         </td>         
-         -->
 
              <td>
        <% for(var i in maplist){ %>
@@ -42,24 +34,24 @@
               <p></p>
 
              <% } %>
-          </td> 
+          </td>
          </tr>
          <tr style="height:150px;">
          </tr>
          </table>
- 
- 
- 
+
+
+
  <script>
 
         $(".domain").click(function(){
             $(this).siblings(".sites:first").toggle();
               return false;
-        })    
-        
+        })
+
           $("#moregoogles").click(function(){
             $(".hidegoogle").each(function(){$(this).toggle();})
               return false;
-        })    
+        })
 
  </script>
