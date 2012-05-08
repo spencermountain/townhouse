@@ -39,7 +39,7 @@ function recent(tabs){
    //domain=domain.replace(/.*?\.(.{4}.*?)/,'$1');//regex subdomain
    if(!title){title=domain;}
    if(tablist[parsed.host] == null){tablist[parsed.host]={favicon:favicon, sites:[], domain:domain };}
-   tablist[parsed.host].sites.push({ url : tabs[i].url, title : title})
+   tablist[parsed.host].sites.push({ url : tabs[i].url, title : title+'d'})
  }
 
  //pivot into an array
@@ -93,7 +93,9 @@ function show_domains(){
 
   get_history(1, function(tabs){
     tabs=addcolours(tabs);
-    var template_html = new EJS({url: './templates/recent_template.ejs'}).render({tabs:tabs.slice(0,10)});
+
+var template_html='<div style="display:inline-block;max-height:80%; max-width:99%;">'
+    template_html += '<span>'+new EJS({url: './templates/recent_template.ejs'}).render({tabs:tabs.slice(0,10)})+'</span>'
 
     tabs=recent(tabs);
     var googles=list_googles(tabs);
@@ -104,7 +106,7 @@ function show_domains(){
     //display history view
     console.log(tabs)
     template_html += new EJS({url: './templates/find_template.ejs'}).render({tabs:tabs, googles:googles, maplist:maplist});
-
+    template_html +='</div>'
 
     $('#stage').html(template_html);
 

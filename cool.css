@@ -1,4 +1,4 @@
-      
+
     span.wrapper{
         position:relative; /* important(so we can absolutely position the description div */
         width:100px;
@@ -20,9 +20,9 @@
       width:200px;
       opacity: 0.8;
     }
-        
-        
-        
+
+
+
 body{
   alignment-baseline: auto;
   background-attachment: scroll;
@@ -165,7 +165,6 @@ A:active {text-decoration: none; color: #2FC2EF;}
 A:hover {text-decoration: underline;  color:#2FC2EF;}
 
 
-
 /*linegraph*/
 path.line {
   fill: none;
@@ -215,7 +214,7 @@ path.area {
       opacity:0.9;
       background:steelblue;
   }
-  
+
   .number{
     font-size:44px;
   }

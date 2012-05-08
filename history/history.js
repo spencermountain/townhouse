@@ -25,7 +25,7 @@ function showstats(){
 
     mostgraph(domains)
     timegraph(tabs, domains)
-    showfreebase(tabs);
+    //showfreebase(tabs);
     list_of_googles(tabs);
   })
 

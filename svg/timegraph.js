@@ -10,7 +10,7 @@ function timegraph(tabs, domains){
          var domain=top_domain(within);
          histogram.push({date: i, count:within.length, tabs:within, googles:googles, domain:domain })
        }
-console.log(histogram)
+       console.log(histogram)
     //add this evening as 0 count
     var d=new Date()
     d.setHours(23)
@@ -43,7 +43,7 @@ console.log(histogram)
      .attr("width", w)
      .attr("y", function(d) { return h - y(d.count) - .5; })
      .attr("height", function(d) { return y(d.count) })
-    .style("fill", function(d) {
+     .style("fill", function(d) {
       var domain=domains.filter(function(v){return d.domain==v.domain})[0] || {}
       return domain.colour || 'steelblue'
     })//d.domain; })
@@ -51,13 +51,17 @@ console.log(histogram)
 .transition()
 .duration(750)
 .attr("y", function(d) { return h - y(d.count) - .5; })
-.attr("height", function(d) { return y(d.count) })
+//.attr("height", function(d) { return 0 })
 .attr("x", function(d, i) { return x(i) - .5; })
+//.duration(1250)
+.attr("height", function(d) { return y(d.count) })
 
 chart.selectAll("rect")
-//.on("click", function(s,i) { showdomain(histogram[i].domain)})
 .append("svg:title")
 .text(function(s,i) { var h=new Date(); h.setTime(histogram[i].date); return h.getHours()+':'+h.getMinutes()+'   '+histogram[i].count +'  '+histogram[i].domain  });
+
+chart.selectAll("rect")
+.on("click", function(s,i) { dodomain(histogram[i].domain)})
 
 chart.selectAll("rect")
 .append("svg:text")
@@ -73,24 +77,24 @@ chart.append("svg:line")
 .attr("stroke", "grey");
 
 chart.selectAll("line")
-     .data(x.ticks(10))
-   .enter().append("line")
-     .attr("x1", x)
-     .attr("x2", x)
-     .attr("y1", h)
-     .attr("y2", function(){return h-10})
-     .style("stroke", "grey");
+.data(x.ticks(10))
+.enter().append("line")
+.attr("x1", x)
+.attr("x2", x)
+.attr("y1", h)
+.attr("y2", function(){return h-10})
+.style("stroke", "grey");
 
 
- chart.selectAll(".rule")
-     .data(x.ticks(10))
-   .enter().append("text")
-     .attr("class", "rule")
-     .attr("x", x)
-     .attr("y", 0)
-     .attr("dy", -3)
-     .attr("text-anchor", "middle")
-     .text(String);
+chart.selectAll(".rule")
+.data(x.ticks(10))
+.enter().append("text")
+.attr("class", "rule")
+.attr("x", x)
+.attr("y", 0)
+.attr("dy", -3)
+.attr("text-anchor", "middle")
+.text(String);
 
 
 }

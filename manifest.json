@@ -1,5 +1,6 @@
 {
   "name": "Townhouse",
+  "description" : "a browsing-history informed new tab page",
   "version": "1.0",
   "chrome_url_overrides": {
     "newtab": "home.html"

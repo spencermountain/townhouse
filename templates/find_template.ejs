@@ -5,11 +5,13 @@
           <% for(var i in tabs){ %>
           <span style="position:relative; left:<%= i*25%>px;">
                 <img style="width:15px; height:15px;" src="<%= tabs[i].favicon %>" / >
-                <a href="#" style="font-size:<%= tabs[i].font %>; background:<%= tabs[i].colour %>; color:white; opacity:0.8;" class="domain">
-                  <%= tabs[i].domain %>
+                <a href="#" class="domain" style="font-size:<%= tabs[i].font %>; background:<%= tabs[i].colour %>; color:white; opacity:0.8;"
+                   >
+                  <%= tabs[i].domain %> +
                 </a>
                 </br>
-                  <div class="sites" id="<%= tabs[i].domain %>" style="display:none; position:relative;">
+                  <div class="sites" id="<%= tabs[i].domain %>" style="display:none; left:<%= (i*25) +50 %>px; position:relative;">
+                    <a href="#" style="position:relative; left:60px;" onclick="dodomain('<%= tabs[i].domain %>')"><%= tabs[i].sites.length %> visits</a><br/>
                     <% for(var o in tabs[i].sites){ %>
                       <a href="<%= tabs[i].sites[o].url %>" style="" > <%= tabs[i].sites[o].title %></a></br>
                     <% } %>

@@ -1,6 +1,7 @@
 
 function mostgraph(data){
-
+console.log('mostgraph')
+console.log(data)
     var w=700
     var h=50
     svg=d3.select("#mostgraph")
@@ -10,7 +11,7 @@ function mostgraph(data){
 
     var x = d3.scale.linear()
     .domain([0, d3.max(data.map(function(v){return v.count}))])
-    .range([0, 90]);
+    .range([0, 290]);
 
     rect= svg.selectAll("rect")
       .data(data)
@@ -31,11 +32,16 @@ function mostgraph(data){
       .attr("title", function(d,i){return d.title})
       .style("fill", function(d,i){return d.colour})
 
+rect
+.on("click", function(d) { return dodomain(d.domain)})
+
       rect
       .transition()
       .duration(1000)
       .attr("width", function(d,i){return x(d.count)})
       //.on("click", function(s,i) { showdomain(data[i].domain)})
+
+
 
       rect.append("svg:title")
       .text(function(d,i) { return d.domain +' ' });
