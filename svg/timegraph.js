@@ -2,11 +2,11 @@
 function timegraph(tabs, domains){
  tabs=tabs.reverse();
  var start=tabs[0].lastVisitTime;
-       var unit=300000;//5minutes
+       var unit=600000;//10minutes
        var histogram=[]
        for(var i =tabs[0].lastVisitTime; i<=tabs[tabs.length-1].lastVisitTime; i=i+unit){
          var within=_.filter(tabs, function(tab){ return tab.lastVisitTime<=i && tab.lastVisitTime>=i-unit  });
-         var googles=[];//getgoogles(within);
+         var googles=[];//list_of_googles(within);
          var domain=top_domain(within);
          histogram.push({date: i, count:within.length, tabs:within, googles:googles, domain:domain })
        }
@@ -63,39 +63,90 @@ chart.selectAll("rect")
 chart.selectAll("rect")
 .on("click", function(s,i) { dodomain(histogram[i].domain)})
 
-chart.selectAll("rect")
-.append("svg:text")
-.attr("fill", "white")
-.attr("font-size", "33")
-.text("eee");
+// chart.selectAll("rect")
+// .append("svg:text")
+// .attr("fill", "white")
+// .attr("font-size", "33")
+// .text("eee");
 
-chart.append("svg:line")
-.attr("x1", 0)
-.attr("x2", w * data.length)
-.attr("y1", h - .5)
-.attr("y2", h - .5)
-.attr("stroke", "grey");
+// chart.append("svg:line")
+// .attr("x1", 0)
+// .attr("x2", w * data.length)
+// .attr("y1", h - .5)
+// .attr("y2", h - .5)
+// .attr("stroke", "grey");
 
-chart.selectAll("line")
-.data(x.ticks(10))
-.enter().append("line")
-.attr("x1", x)
-.attr("x2", x)
-.attr("y1", h)
-.attr("y2", function(){return h-10})
-.style("stroke", "grey");
+// chart.selectAll("line")
+// .data(x.ticks(10))
+// .enter().append("line")
+// .attr("x1", x)
+// .attr("x2", x)
+// .attr("y1", h)
+// .attr("y2", function(){return h-10})
+// .style("stroke", "grey");
+
+// chart.selectAll(".rule")
+// .data(x.ticks(10))
+// .enter().append("text")
+// .attr("class", "rule")
+// .attr("x", x)
+// .attr("y", 0)
+// .attr("dy", -3)
+// .attr("text-anchor", "middle")
+// .text(String);
 
 
-chart.selectAll(".rule")
-.data(x.ticks(10))
-.enter().append("text")
-.attr("class", "rule")
-.attr("x", x)
-.attr("y", 0)
-.attr("dy", -3)
-.attr("text-anchor", "middle")
-.text(String);
+//chunk into x times for googles
+var unit=parseInt((tabs[tabs.length-1].lastVisitTime - tabs[0].lastVisitTime)/5)
+       var histogram=[]
+       for(var i =tabs[0].lastVisitTime; i<=tabs[tabs.length-1].lastVisitTime; i=i+unit){
+         var within=_.filter(tabs, function(tab){ return tab.lastVisitTime<=i && tab.lastVisitTime>=i-unit  });
+         var googles=[];//list_of_googles(within);
+         histogram.push(within)
+       }
 
+  var html=histogram.map(function(tabs){
+          searches=[]
+            for(var i in tabs){
+               if(tabs[i].url.match(/google\..*?\/search/)){
+                 var parsed=parseUri(tabs[i].url);
+                 var q=parsed.queryKey.q;
+                 q=decodeURI(q);
+                 if(q){
+                  q=q.replace(/\+/g,' ');
+                  searches.push(q);
+                }
+              }
+
+          }
+          searches=unique(searches);
+          //get common terms
+          var tokens={};
+          for(var i in searches){
+            var chunks=searches[i].split(' ');
+            for(var o in chunks){
+              if(!tokens[chunks[o]]){
+                tokens[chunks[o]]=0;
+              }
+              tokens[chunks[o]]++
+            }
+          }
+          //convert to array
+          var grams=[];
+          for(var i in tokens){
+            grams.push({gram:i, count:tokens[i]})
+          }
+          grams=grams.sort(function(a,b){return b.count-a.count;})
+          grams=_.compact(grams.map(function(v){return v.gram}))
+          return '<td style="width:20%;"><a href="#" class="googo">'+grams.slice(0,2).join(' ')+'</a><br/>'
+          +'<span style="color:grey; font-size:13px; display:none;" class="fungoog">'+searches.slice(0,4).join('<br/>')+'</span>'
+          +'</td>'
+  }).join(' ')
+
+$('#googletime').html('<table style="width:'+width+'px; color:white;"><tr>'+html+'</tr></table>')
+$(".googo").click(function(){
+  $(this).siblings(".fungoog").toggle()
+})
 
 }
 

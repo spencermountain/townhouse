@@ -26,7 +26,15 @@ function showstats(){
     mostgraph(domains)
     timegraph(tabs, domains)
     //showfreebase(tabs);
-    list_of_googles(tabs);
+   var searches= list_of_googles(tabs);
+
+  //render
+  var html='';
+  for(var i in searches){
+    html+='<a href="http://google.com/search?q='+searches[i].q+'">'+searches[i].show+'</a><br/>'
+  }
+  $("#list_googles").html(html)
+
   })
 
 }
@@ -204,12 +212,5 @@ for(var i in searches){
 searches[i]={show:show, q:searches[i]};
 }
 
-
-//render
-var html='';
-for(var i in searches){
-  html+='<a href="http://google.com/search?q='+searches[i].q+'">'+searches[i].show+'</a><br/>'
-}
-$("#list_googles").html(html)
-//return searches;
+return searches;
 }
