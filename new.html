@@ -1,0 +1,61 @@
+
+<html>
+<head>
+<title></title>
+<script type="text/javascript" src="./lib/jquery.js"> </script>
+<script type="text/javascript" src="./js/color.js"> </script>
+<script type="text/javascript" src="./js/paint.js"> </script>
+<script type="text/javascript" src="./js/today.js"> </script>
+<script type="text/javascript" src="./home.js"> </script>
+<style>
+body{
+	x-overflow:"hidden";
+	y-overflow:"hidden";
+	padding:0px;
+	margin:0px;
+	text-align:center;
+}
+.toe{
+	width:25%;
+}
+.handsome{
+	font-size:35px;
+	opacity:0.9;
+	font-family: 'Cabin', sans-serif;
+}
+.circle{
+   background:steelblue; width:100px; height:100px; border-radius:50%; z-index:3; position:absolute; opacity:0.7;
+}
+@font-face {
+  font-family: 'Cabin';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cabin Regular'), local('Cabin-Regular'), url('./cabin.woff') format('woff');
+}
+</style>
+</head>
+<body>
+<div id="paint" style="position:absolute; display:block; height:200px; width:200px;"></div>
+<div id="stage" style="position:relative; width:99%; height:85%; x-overflow:hidden; y-overflow:hidden; top:0px; vertical-align:center; border:1px solid grey; text-align:center;" >
+</div>
+ <table style="position:fixed; text-align:center; left:0px; bottom:0px; width:99%; padding:15px; vertical-align:middle; height:15%; min-height:150px; padding:0px;" id="footer">
+    <tr>
+      <td class="toe handsome">
+				<span id="daycount">38</span>
+				<div style="font-size:14px;">pages since <span id="wakeup">8am</span></div>
+  		</td>
+      <td class="toe handsome">
+				<span id="day_percentage">20%</span>
+				<div style="font-size:14px;">of the day on the internet</div>
+  		</td>
+      <td class="toe handsome">
+				<span id="googlecount">3</span>
+				<div style="font-size:14px;">search queries</div>
+  		</td>
+      <td class="toe handsome">
+  		</td>
+  	</tr>
+  </table>
+
+</body>
+</html>

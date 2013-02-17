@@ -1,16 +1,11 @@
 {
   "name": "Townhouse",
   "description" : "a browsing-history informed new tab page",
-  "version": "1.0",
+  "version": "1.0.1",
   "chrome_url_overrides": {
-    "newtab": "home.html"
+    "newtab": "new.html"
   },
-  "permissions": ["tabs", "history","chrome://favicon/","management", "bookmarks"],
-    "icons": {
-    "128": "icon.jpg",
-    "16": "icon32.png",
-    "32": "icon32.png",
-    "48": "icon48.jpg"
-  }
+  "manifest_version":2,
+  "permissions": ["tabs", "history","chrome://favicon/","management", "bookmarks"]
 }
 
