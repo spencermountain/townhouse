@@ -3,11 +3,24 @@
 <head>
 <title></title>
 <script type="text/javascript" src="./lib/jquery.js"> </script>
-<script type="text/javascript" src="./js/color.js"> </script>
+<!--<script type="text/javascript" src="./js/color.js"> </script>-->
 <script type="text/javascript" src="./js/paint.js"> </script>
 <script type="text/javascript" src="./js/today.js"> </script>
 <script type="text/javascript" src="./home.js"> </script>
 <style>
+body{
+  background:black;
+    background: -webkit-linear-gradient(#5B798E, #C7D3DC);
+    -webkit-transition: background 3s ease-out;
+}
+
+hr {
+  border: 0;
+  width: 80px;
+  background:grey;
+  height:10px;
+}
+
 body{
 	x-overflow:"hidden";
 	y-overflow:"hidden";
@@ -30,7 +43,7 @@ body{
   font-family: 'Cabin';
   font-style: normal;
   font-weight: 400;
-  src: local('Cabin Regular'), local('Cabin-Regular'), url('./cabin.woff') format('woff');
+  src: local('Cabin Regular'), local('Cabin-Regular'), url('./lib/cabin.woff') format('woff');
 }
 </style>
 </head>
@@ -49,6 +62,7 @@ body{
 				<div style="font-size:14px;">of the day on the internet</div>
   		</td>
       <td class="toe handsome">
+        <hr/>
 				<span id="googlecount">3</span>
 				<div style="font-size:14px;">search queries</div>
   		</td>
