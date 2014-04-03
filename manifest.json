@@ -1,11 +1,10 @@
 {
-  "name": "Townhouse",
-  "description" : "a browsing-history informed new tab page",
-  "version": "1.0.1",
-  "chrome_url_overrides": {
-    "newtab": "new.html"
-  },
-  "manifest_version":2,
-  "permissions": ["tabs", "history","chrome://favicon/","management", "bookmarks"]
+	"name": "Townhouse",
+	"description": "a new-tab page replacement with personal analytics",
+	"version": "1.0.2",
+	"chrome_url_overrides": {
+		"newtab": "index.html"
+	},
+	"manifest_version": 2,
+	"permissions": ["tabs", "history", "management"]
 }
-
