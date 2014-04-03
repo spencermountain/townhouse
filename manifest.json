@@ -1,10 +1,14 @@
 {
 	"name": "Townhouse",
 	"description": "a new-tab page replacement with personal analytics",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"chrome_url_overrides": {
 		"newtab": "index.html"
 	},
 	"manifest_version": 2,
-	"permissions": ["tabs", "history", "management"]
+	"permissions": ["tabs", "history"],
+	"icons": {
+		"48": "./icons/icon_48.png",
+		"128": "./icons/icon_128.png"
+	}
 }

@@ -1,13 +1,17 @@
 
 timeline= (tabs=[], el, options={})->
-  console.log(tabs[1])
   window.svg = d3.select(el).append("svg:svg")
   .attr("height", 150 )
   # .style("border","1px solid grey")
+  width= $("svg").width()
+  if width > 800
+    width= 800
+  if width < 200
+    width= 200
   y= 50
   times= get_times()
   buffer= 900000 #15 mins
-  scale = d3.scale.linear().domain([times.morning-buffer, times.night+buffer]).range([0, 800])
+  scale = d3.scale.linear().domain([times.morning-buffer, times.night+buffer]).range([0, width])
 
   #dayline
   line = svg.append("svg:line")
@@ -102,9 +106,9 @@ timeline= (tabs=[], el, options={})->
       current_end= t.lastVisitTime
     else
       current_end= t.lastVisitTime
-  console.log tabs.length + " tabs"
-  console.log "into #{sessions.length} sessions"
-  sessions.each (s)->
+  # console.log tabs.length + " tabs"
+  # console.log "into #{sessions.length} sessions"
+  sessions.forEach (s)->
     svg.append("svg:line")
     .attr('x1', (d)-> scale(s.start) )
     .attr('y1', y+7)
@@ -112,12 +116,12 @@ timeline= (tabs=[], el, options={})->
     .attr('y2', y+7)
     .style("stroke", "steelblue")
     .style("stroke-width", 5)
-
-  combined_durations= sessions.map('duration').sum()
+  combined_durations= sessions.map((s)->s.duration).reduce (a, b)->
+    a + b
   seconds= combined_durations / 1000
   minutes= seconds/60
   hours= (minutes/60).toFixed(1)
-  console.log "#{hours} hours"
+  # console.log "#{hours} hours"
   render_timecount(hours)
 
 render_timecount= (hours)->

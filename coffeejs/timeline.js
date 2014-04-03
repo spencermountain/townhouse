@@ -2,19 +2,25 @@
 var render_timecount, timeline;
 
 timeline = function(tabs, el, options) {
-  var axis, buffer, combined_durations, current_end, duration, hours, i, line, minutes, scale, seconds, sessions, start, t, times, y, _i, _len;
+  var axis, buffer, combined_durations, current_end, duration, hours, i, line, minutes, scale, seconds, sessions, start, t, times, width, y, _i, _len;
   if (tabs == null) {
     tabs = [];
   }
   if (options == null) {
     options = {};
   }
-  console.log(tabs[1]);
   window.svg = d3.select(el).append("svg:svg").attr("height", 150);
+  width = $("svg").width();
+  if (width > 800) {
+    width = 800;
+  }
+  if (width < 200) {
+    width = 200;
+  }
   y = 50;
   times = get_times();
   buffer = 900000;
-  scale = d3.scale.linear().domain([times.morning - buffer, times.night + buffer]).range([0, 800]);
+  scale = d3.scale.linear().domain([times.morning - buffer, times.night + buffer]).range([0, width]);
   line = svg.append("svg:line").attr('x1', function(d) {
     return scale(times.morning);
   }).attr('y1', y).attr('x2', function(d) {
@@ -87,20 +93,21 @@ timeline = function(tabs, el, options) {
       current_end = t.lastVisitTime;
     }
   }
-  console.log(tabs.length + " tabs");
-  console.log("into " + sessions.length + " sessions");
-  sessions.each(function(s) {
+  sessions.forEach(function(s) {
     return svg.append("svg:line").attr('x1', function(d) {
       return scale(s.start);
     }).attr('y1', y + 7).attr('x2', function(d) {
       return scale(s.end);
     }).attr('y2', y + 7).style("stroke", "steelblue").style("stroke-width", 5);
   });
-  combined_durations = sessions.map('duration').sum();
+  combined_durations = sessions.map(function(s) {
+    return s.duration;
+  }).reduce(function(a, b) {
+    return a + b;
+  });
   seconds = combined_durations / 1000;
   minutes = seconds / 60;
   hours = (minutes / 60).toFixed(1);
-  console.log("" + hours + " hours");
   return render_timecount(hours);
 };
 
