@@ -1,7 +1,7 @@
 {
 	"name": "Townhouse",
 	"description": "a new-tab page replacement with personal analytics",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"chrome_url_overrides": {
 		"newtab": "index.html"
 	},

@@ -4,6 +4,7 @@ $( document ).ready ->
   calibri= 'font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;'
   window.blue= colourscheme.blues(0.6)
   window.notblue= colourscheme.browns(0.6)
+  console.log "hi"
 
   close_others=->
     obj= {
@@ -30,12 +31,16 @@ $( document ).ready ->
     night.setHours(23)
     night.setMinutes(0)
     night= night.getTime()
+
+    day= new Date().getDay()
+    workday= !(day==0 || day==6)
     {
       morning:morning,
       now:now,
       night:night,
       delta_now: now - morning,
-      delta_day: night - morning
+      delta_day: night - morning,
+      workday: workday
     }
 
   today_pages=(cb=->)->
@@ -55,41 +60,22 @@ $( document ).ready ->
       cb(tabs)
 
 
+  googles= (tabs)->
+    urls= tabs.map (t)->t.url
+    urls= urls.filter (u)-> u.match(/\.google\./)
+    googles= []
+    urls.forEach (u)->
+      p = parseUri(u)
+      console.log p
+      # if p.hostname.match(/^(www\.)google\./)
 
-  $("body").html(
-    """
-    <div id="timeline" style="position:absolute; margin:0px 10% 0px 10%; width:80%; bottom:120px; text-align:center;">
-    </div>
 
-    <table style="position:absolute; margin:0px; width:90%; bottom:70px; color:grey; text-align:center; min-width:200px;">
-      <tr>
+  $("#pages").css('color', blue)
+  $("#color1").css('background-color', blue)
+  $("#color2").css('background-color', notblue)
 
-        <td style="width:200px;" >
-          <div style="font-size:69px;" id="pagecount">
-            0
-          </div>
-          <span style="display:inline-block; padding:3px; color:white; color:#{blue}; font-size:20px;">
-            pages
-          </span>
-          <div style="font-size:15px; color:grey;">
-            since 8am
-          </span>
-        </td>
-
-        <td id="timecount" style="width:200px;" >
-        </td>
-
-        <td style="width:200px;" id="">
-        </td>
-        <td style="width:200px;" id="">
-        </td>
-      </tr>
-    </table>
-    <div id="color1" style="position:absolute; width:100px; height:28px; bottom:30px; border-radius:3px 3px 3px 3px; left:100px; background-color:#{blue}; "></div>
-    <div id="color2" style="position:absolute; width:75px; height:20px; bottom:24px; border-radius:3px 3px 3px 3px; left:150px; background-color:#{notblue}; "></div>
-    """
-  )
   close_others()
 
   today_pages (tabs)->
-    timeline(tabs, $("#timeline")[0])
+    timeline(tabs, $("#timeline"))
+    googles(tabs)

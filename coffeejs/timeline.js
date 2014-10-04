@@ -9,14 +9,16 @@ timeline = function(tabs, el, options) {
   if (options == null) {
     options = {};
   }
-  window.svg = d3.select(el).append("svg:svg").attr("height", 150);
+  window.svg = d3.select(el[0]).append("svg:svg").attr("height", 150).attr("width", el.width());
   width = $("svg").width();
+  console.log(el.width());
   if (width > 800) {
     width = 800;
   }
   if (width < 200) {
     width = 200;
   }
+  console.log(width);
   y = 50;
   times = get_times();
   buffer = 900000;
@@ -31,31 +33,33 @@ timeline = function(tabs, el, options) {
   }).attr('y1', y).attr('x2', function(d) {
     return scale(times.now);
   }).attr('y2', y).style("stroke", blue).style("stroke-width", 2);
-  line = svg.append("svg:line").attr('x1', function() {
-    var t;
-    t = new Date(times.morning);
-    t.setHours(9);
-    t.setMinutes(0);
-    return scale(t.getTime());
-  }).attr('y1', y - 4).attr('x2', function(d) {
-    var t;
-    t = new Date(times.morning);
-    t.setHours(17);
-    t.setMinutes(0);
-    return scale(t.getTime());
-  }).attr('y2', y - 4).style("stroke", notblue).style("stroke-width", 1);
+  if (times.workday) {
+    line = svg.append("svg:line").attr('x1', function() {
+      var t;
+      t = new Date(times.morning);
+      t.setHours(9);
+      t.setMinutes(0);
+      return scale(t.getTime());
+    }).attr('y1', y - 4).attr('x2', function(d) {
+      var t;
+      t = new Date(times.morning);
+      t.setHours(17);
+      t.setMinutes(0);
+      return scale(t.getTime());
+    }).attr('y2', y - 4).style("stroke", notblue).style("stroke-width", 1);
+  }
   axis = [
     {
-      label: "8:00",
+      label: "8am",
       hour: 8
     }, {
       label: "noon",
       hour: 12
     }, {
-      label: "5:00",
+      label: "5pm",
       hour: 17
     }, {
-      label: "8:00",
+      label: "8pm",
       hour: 20
     }
   ];
@@ -66,14 +70,9 @@ timeline = function(tabs, el, options) {
     d.setMinutes(5);
     t = d.getTime();
     b = 300000;
-    svg.append("svg:line").attr('x1', function(d) {
-      return scale(t);
-    }).attr('y1', y - 7).attr('x2', function(d) {
-      return scale(t);
-    }).attr('y2', y - 20).style("stroke", "lightgrey").style("stroke-width", 1);
     return label = svg.append("text").text(a.label).attr('x', function(d) {
       return scale(t - b);
-    }).attr('y', y - 25).style('fill', 'grey').attr('font-family', 'Georgia, serif').attr('font-size', '10px');
+    }).attr('y', y - 5).style('fill', 'grey').attr('font-family', 'Georgia, serif').attr('font-size', '10px');
   });
   sessions = [];
   duration = 900000;
@@ -114,7 +113,11 @@ timeline = function(tabs, el, options) {
 render_timecount = function(hours) {
   var h;
   if (hours > 1) {
-    h = "<div style=\"font-size:69px;\" >\n  " + hours + "\n</div>\n<span style=\"font-size:20px; color:" + blue + ";\">\n  hours\n</span>\n<div style=\"font-size:15px; color:grey;\">\n  on the internet\n</span>";
+    h = "<span style=\"font-size:69px; display:inline-block;\" >\n  " + hours + "\n</span>\n<span style=\"font-size:16px; color:" + blue + ";\">\n  hours\n</span>\n<div style=\"font-size:15px; color:grey;\">\n  on the internet\n</div>";
     return $("#timecount").html(h);
   }
 };
+
+/*
+//@ sourceMappingURL=timeline.map
+*/

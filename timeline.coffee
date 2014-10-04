@@ -1,13 +1,16 @@
 
 timeline= (tabs=[], el, options={})->
-  window.svg = d3.select(el).append("svg:svg")
+  window.svg = d3.select(el[0]).append("svg:svg")
   .attr("height", 150 )
+  .attr("width", el.width() )
   # .style("border","1px solid grey")
   width= $("svg").width()
+  console.log el.width()
   if width > 800
     width= 800
   if width < 200
     width= 200
+  console.log width
   y= 50
   times= get_times()
   buffer= 900000 #15 mins
@@ -32,27 +35,28 @@ timeline= (tabs=[], el, options={})->
   .style("stroke-width", 2)
 
   #workline
-  line = svg.append("svg:line")
-  .attr('x1', ()->
-    t= new Date(times.morning)
-    t.setHours(9)
-    t.setMinutes(0)
-    scale(t.getTime())
-  )
-  .attr('y1', y-4)
-  .attr('x2', (d)->
-    t= new Date(times.morning)
-    t.setHours(17)
-    t.setMinutes(0)
-    scale(t.getTime())
-  )
-  .attr('y2', y-4)
-  .style("stroke", notblue)
-  .style("stroke-width", 1)
+  if times.workday
+    line = svg.append("svg:line")
+    .attr('x1', ()->
+      t= new Date(times.morning)
+      t.setHours(9)
+      t.setMinutes(0)
+      scale(t.getTime())
+    )
+    .attr('y1', y-4)
+    .attr('x2', (d)->
+      t= new Date(times.morning)
+      t.setHours(17)
+      t.setMinutes(0)
+      scale(t.getTime())
+    )
+    .attr('y2', y-4)
+    .style("stroke", notblue)
+    .style("stroke-width", 1)
 
   axis= [
     {
-      label:"8:00",
+      label:"8am",
       hour:8
     },
     {
@@ -60,11 +64,11 @@ timeline= (tabs=[], el, options={})->
       hour:12
     },
     {
-      label:"5:00",
+      label:"5pm",
       hour:17
     },
     {
-      label:"8:00",
+      label:"8pm",
       hour:20
     },
   ]
@@ -74,18 +78,18 @@ timeline= (tabs=[], el, options={})->
     d.setMinutes(5)
     t= d.getTime()
     b= 300000 #6mins
-    svg.append("svg:line")
-    .attr('x1', (d)-> scale(t) )
-    .attr('y1', y-7)
-    .attr('x2', (d)-> scale(t) )
-    .attr('y2', y-20)
-    .style("stroke", "lightgrey")
-    .style("stroke-width", 1)
+    # svg.append("svg:line")
+    # .attr('x1', (d)-> scale(t) )
+    # .attr('y1', y-15)
+    # .attr('x2', (d)-> scale(t) )
+    # .attr('y2', y-20)
+    # .style("stroke", "lightgrey")
+    # .style("stroke-width", 1)
 
     label= svg.append("text")
     .text(a.label)
     .attr('x', (d)->scale(t-b))
-    .attr('y', y-25)
+    .attr('y', y-5)
     .style('fill','grey')
     .attr('font-family', 'Georgia, serif')
     .attr('font-size', '10px')
@@ -127,14 +131,14 @@ timeline= (tabs=[], el, options={})->
 render_timecount= (hours)->
   if hours>1
     h= """
-      <div style="font-size:69px;" >
+      <span style="font-size:69px; display:inline-block;" >
         #{hours}
-      </div>
-      <span style="font-size:20px; color:#{blue};">
+      </span>
+      <span style="font-size:16px; color:#{blue};">
         hours
       </span>
       <div style="font-size:15px; color:grey;">
         on the internet
-      </span>
+      </div>
     """
     $("#timecount").html(h)
