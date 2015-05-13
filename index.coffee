@@ -4,7 +4,6 @@ $( document ).ready ->
   calibri= 'font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;'
   window.blue= colourscheme.blues(0.6)
   window.notblue= colourscheme.browns(0.6)
-  console.log "hi"
 
   close_others=->
     obj= {
@@ -22,14 +21,14 @@ $( document ).ready ->
     if morning.getHours() < 8
       morning.setDate morning.getDate() - 1
     morning.setHours(7)
-    morning.setMinutes(50)
+    morning.setMinutes(1)
     morning= morning.getTime()
 
     now = new Date().getTime()
 
     night= new Date()
     night.setHours(23)
-    night.setMinutes(0)
+    night.setMinutes(59)
     night= night.getTime()
 
     day= new Date().getDay()
@@ -54,28 +53,25 @@ $( document ).ready ->
       maxResults: 2000
     , (tabs) ->
       #print-out count
-      $("#pagecount").html(tabs.length)
+      $("#pagecount").html("#{tabs.length} pages")
 
       tabs= tabs.reverse()
       cb(tabs)
 
 
-  googles= (tabs)->
-    urls= tabs.map (t)->t.url
-    urls= urls.filter (u)-> u.match(/\.google\./)
-    googles= []
-    urls.forEach (u)->
-      p = parseUri(u)
-      console.log p
-      # if p.hostname.match(/^(www\.)google\./)
+  # googles= (tabs)->
+  #   urls= tabs.map (t)->t.url
+  #   urls= urls.filter (u)-> u.match(/\.google\./)
+  #   googles= []
+  #   urls.forEach (u)->
+  #     p = parseUri(u)
+  #     # if p.hostname.match(/^(www\.)google\./)
 
 
-  $("#pages").css('color', blue)
-  $("#color1").css('background-color', blue)
-  $("#color2").css('background-color', notblue)
+  # $("#pagecount").css('color', blue)
 
   close_others()
 
   today_pages (tabs)->
     timeline(tabs, $("#timeline"))
-    googles(tabs)
+    # googles(tabs)

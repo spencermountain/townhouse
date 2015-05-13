@@ -2,7 +2,7 @@
     "author": "Spencer Kelly <spencerwater@gmail.com> (http://spencerwaterbed.com)",
     "name": "nlp_comprimise",
     "description": "a new-tab page with browsing history",
-    "version": "0.0.1",
+    "version": "0.2.0",
     "repository": {
         "type": "git",
         "url": "git://github.com/spencermountain/townhouse.git"

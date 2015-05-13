@@ -1,18 +1,20 @@
 
 timeline= (tabs=[], el, options={})->
+  start= tabs[0].lastVisitTime
+  current_end= tabs[0].lastVisitTime
+
   window.svg = d3.select(el[0]).append("svg:svg")
   .attr("height", 150 )
   .attr("width", el.width() )
   # .style("border","1px solid grey")
   width= $("svg").width()
-  console.log el.width()
   if width > 800
     width= 800
   if width < 200
     width= 200
-  console.log width
   y= 50
   times= get_times()
+  console.log(times)
   buffer= 900000 #15 mins
   scale = d3.scale.linear().domain([times.morning-buffer, times.night+buffer]).range([0, width])
 
@@ -43,14 +45,14 @@ timeline= (tabs=[], el, options={})->
       t.setMinutes(0)
       scale(t.getTime())
     )
-    .attr('y1', y-4)
+    .attr('y1', y)
     .attr('x2', (d)->
       t= new Date(times.morning)
       t.setHours(17)
       t.setMinutes(0)
       scale(t.getTime())
     )
-    .attr('y2', y-4)
+    .attr('y2', y)
     .style("stroke", notblue)
     .style("stroke-width", 1)
 
@@ -97,8 +99,7 @@ timeline= (tabs=[], el, options={})->
   sessions= []
   # duration= 450000 #7 mins
   duration= 900000 #15 mins
-  start= tabs[0].lastVisitTime
-  current_end= tabs[0].lastVisitTime
+
   for t,i in tabs
     if t.lastVisitTime > current_end+duration || !tabs[i+1]
       sessions.push({
@@ -110,8 +111,7 @@ timeline= (tabs=[], el, options={})->
       current_end= t.lastVisitTime
     else
       current_end= t.lastVisitTime
-  # console.log tabs.length + " tabs"
-  # console.log "into #{sessions.length} sessions"
+
   sessions.forEach (s)->
     svg.append("svg:line")
     .attr('x1', (d)-> scale(s.start) )
@@ -124,21 +124,17 @@ timeline= (tabs=[], el, options={})->
     a + b
   seconds= combined_durations / 1000
   minutes= seconds/60
-  hours= (minutes/60).toFixed(1)
-  # console.log "#{hours} hours"
+  hours= (minutes/60).toFixed(0)
   render_timecount(hours)
 
 render_timecount= (hours)->
   if hours>1
     h= """
-      <span style="font-size:69px; display:inline-block;" >
+      <span style="font-size:16px; color:#{blue};">
         #{hours}
       </span>
-      <span style="font-size:16px; color:#{blue};">
-        hours
+      <span style="font-size:15px; color:grey;">
+        hours on the internet
       </span>
-      <div style="font-size:15px; color:grey;">
-        on the internet
-      </div>
     """
     $("#timecount").html(h)
